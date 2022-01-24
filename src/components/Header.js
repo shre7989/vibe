@@ -14,10 +14,7 @@ function Header() {
     <HeaderContainer>
       {/* Header Left */}
       <HeaderLeft>
-        <HeaderAvatar
-          //TODO: Add Onclick
-          src={user?.photoURL}
-        />
+        <HeaderAvatar onClick={() => auth.signOut()} src={user?.photoURL} />
         <AccessTimeIcon />
       </HeaderLeft>
 
