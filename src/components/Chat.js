@@ -8,6 +8,7 @@ import ChatInput from "./ChatInput";
 import { useCollection, useDocument } from "react-firebase-hooks/firestore";
 import { db } from "../firebase";
 import ChatMessage from "./ChatMessage";
+import NoActivity from "./NoActivity";
 
 function Chat() {
   const chatRef = useRef(null);
@@ -28,7 +29,9 @@ function Chat() {
       behavior: "smooth",
     });
   }, [roomId, loading]);
-  console.log(roomMessages?.docs);
+
+  if (!roomId) return <NoActivity />;
+
   return (
     <ChatContainer>
       {roomDetails && roomMessages && (
@@ -36,7 +39,7 @@ function Chat() {
           <ChatHeader>
             <ChatHeaderLeft>
               <StarsIcon fontSize="large" />
-              <h3> #{roomDetails?.data().name}</h3>
+              <h3> #{roomDetails?.data()?.name}</h3>
             </ChatHeaderLeft>
             <CharHeaderRight>
               <InfoIcon />
@@ -63,7 +66,7 @@ function Chat() {
 
           <ChatInput
             chatRef={chatRef}
-            channelName={roomDetails?.data().name}
+            channelName={roomDetails?.data()?.name}
             channelId={roomId}
           />
         </>
