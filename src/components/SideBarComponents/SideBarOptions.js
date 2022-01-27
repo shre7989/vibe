@@ -1,11 +1,17 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { db } from "../firebase";
-import { enterRoom } from "../features/appSlice";
+import { auth, db } from "../../firebase";
+import { doc, deleteDoc } from "firebase/firestore";
+import { deleteRoom, enterRoom } from "../../features/appSlice";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { Button } from "@mui/material";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 function SideBarOptions({ Icon, title, addChannelOption, id }) {
   const dispatch = useDispatch();
+  const [user] = useAuthState(auth);
+
   const addChannel = () => {
     const channelName = prompt("Enter the Channel Name.");
 
@@ -13,6 +19,8 @@ function SideBarOptions({ Icon, title, addChannelOption, id }) {
     if (channelName) {
       db.collection("rooms").add({
         name: channelName,
+        manager: user.displayName,
+        managerId: user.email,
       });
     }
   };
@@ -25,7 +33,15 @@ function SideBarOptions({ Icon, title, addChannelOption, id }) {
       );
     }
   };
-
+  const deleteChannel = (e) => {
+    e.stopPropagation(); ///stop event bubbling to the highest point in DOM
+    deleteDoc(doc(db, "rooms", id));
+    dispatch(
+      deleteRoom({
+        roomId: null,
+      })
+    );
+  };
   return (
     <SideBarOptionsContainer
       onClick={addChannelOption ? addChannel : selectChannel}
@@ -34,17 +50,22 @@ function SideBarOptions({ Icon, title, addChannelOption, id }) {
       {Icon ? (
         <h4>{title}</h4>
       ) : (
-        <SideBarOptionsChannel>
-          <span>#</span> <h4>{title}</h4>
-        </SideBarOptionsChannel>
+        <>
+          <SideBarOptionsChannel>
+            <span>#</span> <h4>{title}</h4>
+          </SideBarOptionsChannel>
+          <Button onClick={deleteChannel}>
+            <DeleteForeverIcon />
+          </Button>
+        </>
       )}
     </SideBarOptionsContainer>
   );
 }
 
 const SideBarOptionsContainer = styled.div`
-  width: 100%;
   display: flex;
+  width: 100%;
   flex-direction: row;
   padding: 6px;
   align-items: left;
@@ -57,17 +78,24 @@ const SideBarOptionsContainer = styled.div`
     font-weight: 500;
     color: grey;
   }
-
+  > Button {
+    padding: 0;
+  }
   :hover {
-    background-color: white;
+    background-color: black;
+  }
+  :focus {
+    background-color: black;
   }
 `;
 
 const SideBarOptionsChannel = styled.div`
+  flex: 1;
+  width: 100%;
   display: flex;
   align-items: center;
   padding: 0;
-
+  transition: all 0.2s;
   > span {
     padding-left: 0.2rem;
     font-size: large;
@@ -80,5 +108,10 @@ const SideBarOptionsChannel = styled.div`
     font-weight: 500;
     color: grey;
   }
+
+  :hover {
+    cursor: pointer;
+  }
 `;
+
 export default SideBarOptions;

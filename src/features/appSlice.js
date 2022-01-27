@@ -9,10 +9,13 @@ export const appSlice = createSlice({
     enterRoom: (state, action) => {
       state.roomId = action.payload.roomId;
     },
+    deleteRoom: (state, action) => {
+      state.roomId = action.payload.roomId;
+    },
   },
 });
 
-export const { enterRoom } = appSlice.actions;
+export const { enterRoom, deleteRoom } = appSlice.actions;
 
 export const selectRoomId = (state) => state.app.roomId;
 

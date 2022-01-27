@@ -1,14 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
-import StarsIcon from "@mui/icons-material/Stars";
-import InfoIcon from "@mui/icons-material/Info";
 import { useSelector } from "react-redux";
-import { selectRoomId } from "../features/appSlice";
+import { selectRoomId } from "../../features/appSlice";
 import ChatInput from "./ChatInput";
 import { useCollection, useDocument } from "react-firebase-hooks/firestore";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 import ChatMessage from "./ChatMessage";
-import NoActivity from "./NoActivity";
+import NoActivity from "../NoActivity";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 function Chat() {
   const chatRef = useRef(null);
@@ -37,14 +36,10 @@ function Chat() {
       {roomDetails && roomMessages && (
         <>
           <ChatHeader>
-            <ChatHeaderLeft>
-              <StarsIcon fontSize="large" />
+            <ChatHeaderInfo>
               <h3> #{roomDetails?.data()?.name}</h3>
-            </ChatHeaderLeft>
-            <CharHeaderRight>
-              <InfoIcon />
-              <h4>Details</h4>
-            </CharHeaderRight>
+              <ExpandMoreIcon fontSize="small" />
+            </ChatHeaderInfo>
           </ChatHeader>
 
           <ChatHistory>
@@ -86,42 +81,19 @@ const ChatContainer = styled.div`
 const ChatHeader = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
-  border-bottom: 1px #eeeeee solid;
-
-  /* box-shadow: 0px 1px 2px 1px rgba(0, 0, 255, 0.2); */
+  padding: 0.5rem;
+  border-bottom: 1.5px #eeeeee solid;
 `;
-const ChatHeaderLeft = styled.div`
+
+const ChatHeaderInfo = styled.div`
   display: flex;
   align-items: center;
+  padding: 0.5rem;
+  border-radius: 0.3rem;
 
-  > .MuiSvgIcon-root {
-    color: var(--primary-color);
-  }
-  > h3 {
-    padding-left: 0.5rem;
-    letter-spacing: 1px;
-  }
-`;
-const CharHeaderRight = styled.div`
-  display: flex;
-  align-items: center;
-
-  > .MuiSvgIcon-root {
-    color: black;
-    transition: all 0.3s;
-
-    :hover {
-      cursor: pointer;
-      font-size: 30px;
-    }
-  }
-
-  > h4 {
-    padding-left: 0.5rem;
-    font-weight: 500;
-    color: black;
+  :hover {
+    cursor: pointer;
+    background-color: #efefef;
   }
 `;
 

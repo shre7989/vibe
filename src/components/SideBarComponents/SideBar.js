@@ -13,21 +13,23 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AddIcon from "@mui/icons-material/Add";
 import SideBarOptions from "./SideBarOptions";
-import { db } from "../firebase";
+import { auth, db } from "../../firebase";
 import { useCollection } from "react-firebase-hooks/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 function SideBar() {
-  const [channels, loading, error] = useCollection(db.collection("rooms"));
+  const [channels] = useCollection(db.collection("rooms"));
+  const [user] = useAuthState(auth);
 
   return (
     <SideBarContainer>
       {/** SideBarHeader */}
       <SideBarHeader>
         <SideBarHeaderInfo>
-          <h2>GOLD KINGS</h2>
+          <h2>VIBE 🤖👽👻</h2>
           <h3>
             <FiberManualRecord />
-            Mausam Shrestha
+            {user.displayName}
           </h3>
         </SideBarHeaderInfo>
         <CreateIcon />
@@ -44,7 +46,7 @@ function SideBar() {
       <hr />
       <SideBarOptions Icon={ExpandMoreIcon} title="Channels" />
       <hr />
-      <SideBarOptions Icon={AddIcon} title="Add Channels" addChannelOption />
+      <SideBarOptions Icon={AddIcon} title="Create Channels" addChannelOption />
       {channels?.docs.map((doc) => (
         <SideBarOptions key={doc.id} id={doc.id} title={doc.data().name} />
       ))}
@@ -56,7 +58,7 @@ const SideBarContainer = styled.div`
   flex: 0.2;
   display: flex;
   flex-direction: column;
-  height: 94vh;
+  height: 100vh;
   background-color: var(--secondary-light);
   align-items: center;
   border: 1px solid black;
@@ -89,8 +91,9 @@ const SideBarHeaderInfo = styled.div`
   justify-content: center;
   > h2 {
     padding-left: 0.3rem;
-    letter-spacing: 2px;
-    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: 4px;
+    font-family: "Poppins", sans-serif;
+    color: white;
   }
   > h3 {
     display: flex;
