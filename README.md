@@ -38,6 +38,6 @@ Instead, it will copy all the configuration files and the transitive dependencie
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
 ## Project Description
-I designed this project by looking at different web builds of popular communication platforms like Slack, Discord etc. Right only basic features of real time chat, web authentication is implemented but I am looking forward to build new functionalities in the near future. If anyone wants to collaborate with me in this project please hit me up in the email: shre7989@gmail.com with "Vibe: Collab " as the message header. Anyone is free to use this build and extends the functionalites anyway they want. Happy Coding:)
+I designed this project by looking at different web builds of popular communication platforms like Slack, Discord etc. Right now only basic features like real time chat, web authentication is implemented but I am looking forward to build and extend new functionalities in the near future. If anyone wants to collaborate with me in this project please hit me up in the email: shre7989@gmail.com with "Vibe: Collab " as the message header. Also, anyone is free to use this build and extend this project in anyway they want. Happy Coding:)
 
 ![ssVibe](https://user-images.githubusercontent.com/55064602/151322939-d206f288-8faf-4c24-990f-2c377adad641.png)
